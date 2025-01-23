@@ -18,7 +18,7 @@ Below are the datasets, their roles in achieving project goals, and their limita
 
 ### **Datasets**:
 1. **[GazeCapture](https://gazecapture.csail.mit.edu/)**
-   - **Description**: A large-scale dataset for gaze tracking, collected from real-world environments.
+   - **Description**: A large-scale dataset for gaze tracking, collected from real-world environments. Registration is needed to access this and doesn't accept freemail accounts.
    - **How it Helps**: Enables training of models to detect gaze direction and identify if students are looking away from the screen.
    - **Limitations**: May require additional preprocessing and fine-tuning for exam-specific scenarios.
 
