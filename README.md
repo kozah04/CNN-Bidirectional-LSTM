@@ -6,7 +6,7 @@ This document outlines the datasets compiled for three AI applications designed 
 2. **Automated Grading**: Leveraging NLP and machine learning for efficient and consistent grading of subjective and objective answers.
 3. **Plagiarism Detection**: Analyzing exam answers or assignments for originality and flagging potential plagiarism.
 
-Below are the datasets, their roles in achieving project goals, and their limitations for each application.
+Below are the datasets, their roles in achieving project goals, and their specific usage during training.
 
 ---
 
@@ -16,91 +16,56 @@ Below are the datasets, their roles in achieving project goals, and their limita
 - **Using unauthorized devices** (object detection).
 - **Consulting external materials** (action recognition).
 
-### **Datasets**:
+### **Datasets and Usage**:
 1. **[GazeCapture](https://gazecapture.csail.mit.edu/)**
-   - **Description**: A large-scale dataset for gaze tracking, collected from real-world environments. Registration is needed to access this and doesn't accept freemail accounts.
-   - **How it Helps**: Enables training of models to detect gaze direction and identify if students are looking away from the screen.
-   - **Limitations**: May require additional preprocessing and fine-tuning for exam-specific scenarios.
+   The GazeCapture dataset is a large-scale dataset designed for gaze tracking and collected from real-world environments. It provides diverse gaze data useful for training models to detect if a student is looking away from the screen during an online exam. Preprocessing is required to normalize gaze directions and align annotations with facial bounding boxes. This limitation can be addressed by combining it with smaller, controlled datasets like Columbia Gaze.
 
 2. **[Columbia Gaze Dataset](https://ceal.cs.columbia.edu/columbiagaze/#project-dataset)**
-   - **Description**: A smaller, controlled dataset with annotations for gaze direction under various head poses and lighting conditions.
-   - **How it Helps**: Complements GazeCapture for controlled gaze tracking experiments.
-   - **Limitations**: Limited diversity and scale compared to GazeCapture.
+   The Columbia Gaze dataset is a smaller, controlled dataset that provides annotations for gaze direction under different head poses and lighting conditions. It is particularly useful for fine-tuning gaze detection models trained on larger datasets like GazeCapture, improving accuracy in controlled environments despite its limited diversity.
 
 3. **[WIDER FACE](http://shuoyang1213.me/WIDERFACE/WiderFace_Results.html)**
-   - **Description**: A dataset for face detection in diverse conditions (e.g., occlusions, poses, lighting).
-   - **How it Helps**: Trains face detection models for robust tracking in varied exam environments.
-   - **Limitations**: Does not include behavior-specific annotations like gaze or actions.
+   WIDER FACE is a face detection dataset that includes images with diverse conditions, such as occlusions, poses, and varied lighting. It is essential for training models to accurately detect and track faces during online exams, ensuring the reliability of subsequent gaze or action detection tasks. Although it does not include annotations for gaze or behavior detection, it can be used as a pretraining dataset alongside GazeCapture or AVA Actions.
 
 4. **[AVA Actions (v2.2)](https://research.google.com/ava/download.html)**
-   - **Description**: A video dataset with spatiotemporal annotations for actions like "reading," "writing," or "talking on the phone."
-   - **How it Helps**: Detects cheating behaviors such as consulting external materials or interacting with unauthorized devices.
-   - **Limitations**: Not specifically tailored for exam scenarios, requiring fine-tuning.
+   The AVA Actions dataset provides spatiotemporal annotations for various human actions, such as "reading," "writing," and "talking on the phone." It is highly useful for training models to detect cheating behaviors like consulting notes or interacting with unauthorized devices during exams. However, fine-tuning is needed to align with exam-specific cheating actions, which can be addressed by supplementing it with custom annotations.
 
 5. **[DAISEE](https://datasets.activeloop.ai/docs/ml/datasets/daisee-dataset/)**
-   - **Description**: Annotated videos for engagement detection, including gaze shifts and attention levels.
-   - **How it Helps**: Identifies disengagement or suspicious activities during proctoring.
-   - **Limitations**: Focused on engagement detection rather than explicit cheating behaviors.
+   DAISEE is a dataset focused on engagement detection, including gaze shifts and attention levels. It is useful for identifying disengagement or suspicious behaviors during exams when combined with gaze-tracking models. Since it focuses on engagement rather than explicit cheating behaviors, it works best when paired with datasets like GazeCapture and AVA Actions for a comprehensive solution.
 
 ---
 
 ## **2. Automated Grading**
 **Goal**: Grade subjective (e.g., essays) and objective (e.g., multiple-choice) answers efficiently and consistently using NLP.
 
-### **Datasets**:
+### **Datasets and Usage**:
 1. **[RACE Dataset](https://huggingface.co/datasets/ehovy/race)**
-   - **Description**: A reading comprehension dataset with both multiple-choice and free-text answers.
-   - **How it Helps**: Provides training data for models to grade both objective and subjective responses.
-   - **Limitations**: Focused on English comprehension, requiring domain-specific data for other subjects.
+   The RACE dataset contains reading comprehension questions with both multiple-choice and free-text answers. It is highly relevant for training models to grade both objective and subjective answers, with multiple-choice questions supporting answer key matching and free-text responses enabling semantic similarity scoring. To broaden its applicability to other subjects, it should be supplemented with domain-specific datasets.
 
 2. **[The Hewlett Foundation: Automated Essay Scoring](https://www.kaggle.com/competitions/asap-aes/data)**
-   - **Description**: A dataset of student essays graded by human raters based on predefined rubrics.
-   - **How it Helps**: Enables training of essay-grading models for subjective assessments.
-   - **Limitations**: Restricted to essay-type responses and predefined scoring rubrics.
+   This dataset includes essays graded by human raters based on predefined rubrics, making it ideal for training essay-grading models to predict rubric-based scores for subjective responses. Its focus on essays restricts its application to other response types, which can be mitigated by combining it with datasets like SQuAD for grading short free-text answers.
 
 3. **[ASAP 2.0](https://www.kaggle.com/datasets/lburleigh/asap-2-0)**
-   - **Description**: An extension of the ASAP dataset with additional essay samples and annotations.
-   - **How it Helps**: Enhances robustness of essay-grading models.
-   - **Limitations**: Similar limitations as the Hewlett dataset.
+   ASAP 2.0 expands on the original ASAP dataset with additional essay samples and annotations, improving model robustness across diverse writing styles and prompts. While it overlaps with the Hewlett dataset, using both datasets together addresses limitations in scale and diversity.
 
 4. **[SQuAD (Stanford Question Answering Dataset)](https://rajpurkar.github.io/SQuAD-explorer/)**
-   - **Description**: A dataset for machine reading comprehension with context-question-answer triples.
-   - **How it Helps**: Trains models to evaluate free-text answers by matching them to reference answers.
-   - **Limitations**: Focused on fact-based Q&A, less suited for subjective analysis.
+   SQuAD is a machine reading comprehension dataset that includes context-question-answer triples. It is highly effective for evaluating free-text answers by matching them to reference answers. However, its focus on fact-based Q&A limits its suitability for creative or open-ended responses, which can be addressed by combining it with essay datasets for subjective tasks.
 
 5. **[MCTest Dataset](https://huggingface.co/datasets/sagnikrayc/mctest)**
-   - **Description**: A multiple-choice reading comprehension dataset.
-   - **How it Helps**: Trains models for objective grading tasks.
-   - **Limitations**: Limited to English reading comprehension.
+   MCTest is a multiple-choice reading comprehension dataset. It is useful for training models to grade objective answers by identifying correct choices from distractors. Its simplicity and focus on reading comprehension limit its applicability to complex or domain-specific questions, which can be mitigated by using it alongside datasets like ARC.
 
 6. **[The ARC Dataset](https://leaderboard.allenai.org/arc/submissions/get-started)**
-   - **Description**: A challenging science question-answering dataset with both multiple-choice and short-answer formats.
-   - **How it Helps**: Focused on objective grading in STEM subjects.
-   - **Limitations**: Narrowly focused on science questions.
+   The ARC dataset focuses on science-related questions and includes both multiple-choice and short-answer formats. It is highly relevant for STEM-related grading tasks, particularly for reasoning-based questions. Combining it with datasets like RACE can help address its narrow focus on science.
 
 ---
 
 ## **3. Plagiarism Detection**
 **Goal**: Analyze exam answers or uploaded assignments for originality and flag potential plagiarism.
 
-### **Datasets**:
+### **Datasets and Usage**:
 1. **[PAN Plagiarism Corpus](https://zenodo.org/records/3250095)**
-   - **Description**: A comprehensive dataset with labeled plagiarism cases, including exact matches, paraphrased content, and obfuscated plagiarism.
-   - **How it Helps**: Trains models to identify different levels of text similarity and detect plagiarized content.
-   - **Limitations**: May not cover domain-specific plagiarism scenarios (e.g., technical subjects).
+   The PAN Plagiarism Corpus includes labeled plagiarism cases, such as exact matches, paraphrased content, and obfuscated plagiarism. It is highly suitable for training models to detect various levels of text similarity. While the dataset may lack domain-specific examples, such as technical documents, this can be addressed by augmenting it with custom data from specific domains.
 
 2. **[Microsoft Research Paraphrase Corpus (MSRP)](https://www.microsoft.com/en-us/download/details.aspx?id=52398)**
-   - **Description**: A dataset of sentence pairs labeled as semantically equivalent or not.
-   - **How it Helps**: Detects paraphrased plagiarism and semantically similar text.
-   - **Limitations**: Focused on short text pairs, less effective for long documents.
-
-3. **[Clough & Stevenson Corpus](https://ir.shef.ac.uk/cloughie/resources/plagiarism_corpus.html)**
-   - **Description**: A dataset of student assignments with manually annotated plagiarism cases.
-   - **How it Helps**: Focused on plagiarism detection in academic writing.
-   - **Limitations**: Limited scale and diversity.
+   MSRP contains sentence pairs labeled as semantically equivalent or not, making it ideal for detecting paraphrased plagiarism. Its focus on sentence-level paraphrases limits its applicability to long-form documents, but this can be mitigated by combining it with datasets like PAN for document-level detection.
 
 ---
-
-## **Note**
-The datasets listed above can be accessed using the provided links. Please ensure compliance with individual dataset licenses when using them.
-
