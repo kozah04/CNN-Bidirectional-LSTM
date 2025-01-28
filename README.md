@@ -6,7 +6,7 @@ This document outlines the datasets compiled for three AI applications designed 
 2. **Automated Grading**: Leveraging NLP and machine learning for efficient and consistent grading of subjective and objective answers.
 3. **Plagiarism Detection**: Analyzing exam answers or assignments for originality and flagging potential plagiarism.
 
-Below are the datasets, their roles in achieving project goals, and their specific usage during training.
+Below are the dataset descriptions and how they can be used in achieving the project goals with their specific usage during training.
 
 ---
 
@@ -24,7 +24,7 @@ Below are the datasets, their roles in achieving project goals, and their specif
    The Columbia Gaze dataset is a smaller, controlled dataset that provides annotations for gaze direction under different head poses and lighting conditions. It is particularly useful for fine-tuning gaze detection models trained on larger datasets like GazeCapture, improving accuracy in controlled environments despite its limited diversity.
 
 3. **[WIDER FACE](http://shuoyang1213.me/WIDERFACE/WiderFace_Results.html)**
-   WIDER FACE is a face detection dataset that includes images with diverse conditions, such as occlusions, poses, and varied lighting. It is essential for training models to accurately detect and track faces during online exams, ensuring the reliability of subsequent gaze or action detection tasks. Although it does not include annotations for gaze or behavior detection, it can be used as a pretraining dataset alongside GazeCapture or AVA Actions.
+   WIDER FACE is a face detection dataset that includes images with diverse conditions, such as occlusions, poses, and varied lighting. It can be used for training models to accurately detect and track faces during online exams, ensuring the reliability of subsequent gaze or action detection tasks. Although it does not include annotations for gaze or behavior detection, it can be used as a pretraining dataset alongside GazeCapture or AVA Actions.
 
 4. **[AVA Actions (v2.2)](https://research.google.com/ava/download.html)**
    The AVA Actions dataset provides spatiotemporal annotations for various human actions, such as "reading," "writing," and "talking on the phone." It is highly useful for training models to detect cheating behaviors like consulting notes or interacting with unauthorized devices during exams. However, fine-tuning is needed to align with exam-specific cheating actions, which can be addressed by supplementing it with custom annotations.
